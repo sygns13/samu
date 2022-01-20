@@ -31,7 +31,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('usuarios','UserController@index1');
     Route::get('miperfil','UserController@index2');
 
-   /*  Route::get('intranet/banner', 'BannerController@index1');
+    Route::get('diagnosticoscie', 'CieDiagnosticoController@index1');
+
+
+    Route::resource('intranet/diagnosticoscie','CieDiagnosticoController');
+
+
+    Route::get('intranet/diagnosticoscie/altabaja/{id}/{var}','CieDiagnosticoController@altabaja');
+
+   /*  
+    Route::get('intranet/banner', 'BannerController@index1');
     Route::get('intranet/presentacion', 'PresentacionController@index1');
     Route::get('intranet/datosfec', 'FacultadController@index1');
     Route::get('intranet/noticias', 'NoticiaController@index1');
