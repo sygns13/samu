@@ -32,12 +32,15 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('miperfil','UserController@index2');
 
     Route::get('diagnosticoscie', 'CieDiagnosticoController@index1');
+    Route::get('personalsalud', 'PersonalController@index1');
 
 
     Route::resource('intranet/diagnosticoscie','CieDiagnosticoController');
+    Route::resource('intranet/personal','PersonalController');
 
 
     Route::get('intranet/diagnosticoscie/altabaja/{id}/{var}','CieDiagnosticoController@altabaja');
+    Route::get('intranet/personal/altabaja/{id}/{var}','PersonalController@altabaja');
 
    /*  
     Route::get('intranet/banner', 'BannerController@index1');

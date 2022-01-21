@@ -56,7 +56,7 @@ class CieDiagnosticoController extends Controller
         $registros = $queryZero
         ->orderBy('codigo')
         ->orderBy('id')
-        ->paginate(30);
+        ->paginate(50);
 
           return [
             'pagination'=>[

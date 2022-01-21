@@ -6,7 +6,7 @@
 
     <div class="col-md-12" style="padding-top: 15px;">
       <div class="form-group">
-        <label for="txtcodigoE" class="col-sm-2 control-label">Código CIE 10:*</label>
+        <label for="txtcodigoE" class="col-sm-2 control-label">Código CIE 10:<spam style="color:red;">*</spam></label>
         <div class="col-sm-10">
           <input type="text" class="form-control" id="txtcodigoE" name="txtcodigoE" placeholder="Codigo"
             maxlength="45" @keydown="$event.keyCode === 13 ? $event.preventDefault() : false" v-model="fillobject.codigo">
@@ -16,7 +16,7 @@
 
     <div class="col-md-12" style="padding-top: 15px;">
       <div class="form-group">
-        <label for="txtdescripcionE" class="col-sm-2 control-label">Descripción:*</label>
+        <label for="txtdescripcionE" class="col-sm-2 control-label">Descripción:<spam style="color:red;">*</spam></label>
         <div class="col-sm-10">
           <input type="text" class="form-control" id="txtdescripcionE" name="txtdescripcionE" placeholder="Descripción"
             maxlength="45" @keydown="$event.keyCode === 13 ? $event.preventDefault() : false" v-model="fillobject.descripcion">
@@ -26,7 +26,7 @@
 
       <div class="col-md-12" style="padding-top: 15px;">
         <div class="form-group">
-          <label for="cbuactivoE" class="col-sm-2 control-label">Estado:*</label>
+          <label for="cbuactivoE" class="col-sm-2 control-label">Estado:<spam style="color:red;">*</spam></label>
           <div class="col-sm-4">
             <select class="form-control" id="cbuactivoE" name="cbuactivoE" v-model="fillobject.activo">
               <option value="1">Activado</option>

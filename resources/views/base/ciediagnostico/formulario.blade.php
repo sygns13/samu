@@ -5,7 +5,7 @@
 
       <div class="col-md-12" style="padding-top: 15px;">
         <div class="form-group">
-          <label for="txtcodigo" class="col-sm-2 control-label">Código CIE 10:*</label>
+          <label for="txtcodigo" class="col-sm-2 control-label">Código CIE 10:<spam style="color:red;">*</spam></label>
           <div class="col-sm-10">
             <input type="text" class="form-control" id="txtcodigo" name="txtcodigo" placeholder="Codigo"
               maxlength="45" @keydown="$event.keyCode === 13 ? $event.preventDefault() : false" v-model="codigo">
@@ -15,7 +15,7 @@
 
       <div class="col-md-12" style="padding-top: 15px;">
         <div class="form-group">
-          <label for="txtdescripcion" class="col-sm-2 control-label">Descripción:*</label>
+          <label for="txtdescripcion" class="col-sm-2 control-label">Descripción:<spam style="color:red;">*</spam></label>
           <div class="col-sm-10">
             <input type="text" class="form-control" id="txtdescripcion" name="txtdescripcion" placeholder="Descripción"
               maxlength="45" @keydown="$event.keyCode === 13 ? $event.preventDefault() : false" v-model="descripcion">
@@ -25,7 +25,7 @@
 
       {{-- <div class="col-md-12" style="padding-top: 15px;">
         <div class="form-group">
-            <label for="txtposision" class="col-sm-2 control-label">Orden de Publicación:*</label>
+            <label for="txtposision" class="col-sm-2 control-label">Orden de Publicación:<spam style="color:red;">*</spam></label>
             <div class="col-sm-4">
               <input type="number" v-model.number="posision"  class="form-control" id="txtposision" name="txtposision" placeholder="N°" onKeyUp="if(this.value.length>4){this.value='9999';}else if(this.value<0){this.value='0';}" placeholder="N°">
             </div>
@@ -35,7 +35,7 @@
 
       <div class="col-md-12" style="padding-top: 15px;">
         <div class="form-group">
-          <label for="cbuactivo" class="col-sm-2 control-label">Estado:*</label>
+          <label for="cbuactivo" class="col-sm-2 control-label">Estado:<spam style="color:red;">*</spam></label>
           <div class="col-sm-4">
             <select class="form-control" id="cbuactivo" name="cbuactivo" v-model="activo">
               <option value="1">Activado</option>

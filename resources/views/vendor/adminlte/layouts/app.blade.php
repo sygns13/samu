@@ -29,7 +29,7 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="skin-red-light sidebar-mini">
+<body class="skin-red-light sidebar-mini sidebar-collapse">
 <div id="app" v-cloak>
     <div class="wrapper">
 
@@ -77,6 +77,9 @@ desired effect
 
 @elseif($modulo=="ciediagnostico")
 @include('base.ciediagnostico.vue')
+
+@elseif($modulo=="personal")
+@include('base.personal.vue')
 
 @endif
 
