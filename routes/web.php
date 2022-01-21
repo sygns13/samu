@@ -33,10 +33,12 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('diagnosticoscie', 'CieDiagnosticoController@index1');
     Route::get('personalsalud', 'PersonalController@index1');
+    Route::get('recepcion_llamadas', 'Proceso1RecepcionLlamadaController@index1');
 
 
     Route::resource('intranet/diagnosticoscie','CieDiagnosticoController');
     Route::resource('intranet/personal','PersonalController');
+    Route::resource('intranet/proceso1','Proceso1RecepcionLlamadaController');
 
 
     Route::get('intranet/diagnosticoscie/altabaja/{id}/{var}','CieDiagnosticoController@altabaja');

@@ -81,6 +81,9 @@ desired effect
 @elseif($modulo=="personal")
 @include('base.personal.vue')
 
+@elseif($modulo=="proceso1")
+@include('proceso1.recepcionllamadas.vue')
+
 @endif
 
 <script type="text/javascript">
