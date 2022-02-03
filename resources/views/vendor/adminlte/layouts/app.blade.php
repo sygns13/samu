@@ -81,8 +81,13 @@ desired effect
 @elseif($modulo=="personal")
 @include('base.personal.vue')
 
+{{-- Modulo 2 Procesos de Atencion--}}
+
 @elseif($modulo=="proceso1")
 @include('proceso1.recepcionllamadas.vue')
+
+@elseif($modulo=="proceso2")
+@include('proceso2.consejeriamedica.vue')
 
 @endif
 

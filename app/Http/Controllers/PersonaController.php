@@ -11,6 +11,7 @@ use DB;
 use App\Persona;
 use App\Tipouser;
 use App\User;
+use App\Paciente;
 
 
 class PersonaController extends Controller
@@ -176,6 +177,65 @@ class PersonaController extends Controller
 
 
         return response()->json(["result"=>$result,'msj'=>$msj,'selector'=>$selector,'idPer'=>$idPer,'persona'=>$persona]);
+
+     }
+
+     public function buscarDocPaciente(Request $request)
+     {
+        $nro_documento=$request->nro_documento;
+        $tipo_documento_paciente_id=$request->tipo_documento_paciente_id;
+
+        $result='0';
+        $msj='Complete el Formulario';
+        $selector='';
+        $idPaciente = 0;
+        $paciente="";
+
+        $input1  = array('nro_documento' => $nro_documento);
+        $reglas1 = array('nro_documento' => 'required');
+
+        $input2  = array('tipo_documento_paciente_id' => $tipo_documento_paciente_id);
+        $reglas2 = array('tipo_documento_paciente_id' => 'required');
+
+        $validator1 = Validator::make($input1, $reglas1);
+        $validator2 = Validator::make($input2, $reglas2);
+
+
+        if ($validator1->fails())
+        {
+            $result='0';
+            $msj='Complete un Documento Válido (Mínimo 08 dígitos)';
+            $selector='txtnro_documento';
+
+        }
+        elseif ($validator2->fails() || intval($tipo_documento_paciente_id) == 0)
+        {
+            $result='0';
+            $msj='Seleccione un Tipo de Documento';
+            $selector='cbutipo_documento_paciente_id';
+
+        }
+        elseif (strlen($nro_documento)<8)
+        {
+            $result='0';
+            $msj='Ingrese un Documento válido, mínimo de 08 dígitos';
+            $selector='txtnro_documento';
+
+        }
+        else{
+            $pacienteBuscado=Paciente::where('tipo_documento_paciente_id',$tipo_documento_paciente_id)->where('nro_documento',$nro_documento)->where('borrado','0')->orderBy('id','desc')->get();
+            $idPaciente = 0;
+            foreach ($pacienteBuscado as $key => $dato) {
+                $idPaciente=$dato->id;
+                $paciente = $dato;
+                $result='1';
+                break;
+            }
+        }
+
+
+
+        return response()->json(["result"=>$result,'msj'=>$msj,'selector'=>$selector,'idPaciente'=>$idPaciente,'paciente'=>$paciente]);
 
      }
 

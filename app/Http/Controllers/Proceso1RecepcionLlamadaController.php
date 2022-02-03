@@ -40,7 +40,7 @@ class Proceso1RecepcionLlamadaController extends Controller
             $turnos=Turno::orderBy('id')->where('borrado','0')->get();
             $tipoLlamadas=TipoLlamada::orderBy('id')->where('borrado','0')->get();
             $localizacionLlamadas=LocalizacionLlamadas::orderBy('id')->where('borrado','0')->get();
-            $operadors=Personal::where('cargo_id','4')->where('borrado','0')->orderBy('id')->get();
+            $operadors=Personal::where('cargo_id','4')->where('borrado','0')->orderBy('apellidos')->orderBy('id')->get();
 
             $modulo="proceso1";
 

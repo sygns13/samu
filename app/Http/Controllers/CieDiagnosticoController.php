@@ -71,6 +71,35 @@ class CieDiagnosticoController extends Controller
         ];
     }
 
+
+    public function GetDiagnosticosCIE(Request $request)
+    {
+        $buscar=$request->busca;
+
+        $queryZero=CieDiagnostico::where('borrado','0')
+        ->where(function($query) use ($buscar){
+            $query->where('codigo','like','%'.$buscar.'%');
+            $query->orWhere('descripcion','like','%'.$buscar.'%');
+            });
+
+
+        $registros = $queryZero
+        ->orderBy('codigo')
+        ->orderBy('id')
+        ->paginate(50);
+
+          return [
+            'pagination'=>[
+                'total'=> $registros->total(),
+                'current_page'=> $registros->currentPage(),
+                'per_page'=> $registros->perPage(),
+                'last_page'=> $registros->lastPage(),
+                'from'=> $registros->firstItem(),
+                'to'=> $registros->lastItem(),
+            ],
+            'registros'=>$registros
+        ];
+    }
     /**
      * Show the form for creating a new resource.
      *
