@@ -35,12 +35,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('personalsalud', 'PersonalController@index1');
     Route::get('recepcion_llamadas', 'Proceso1RecepcionLlamadaController@index1');
     Route::get('consejeria_medica', 'Proceso2ConsejeriaController@index1');
+    Route::get('despacho_unidad', 'Proceso3DespachoMovilController@index1');
 
 
     Route::resource('intranet/diagnosticoscie','CieDiagnosticoController');
     Route::resource('intranet/personal','PersonalController');
     Route::resource('intranet/proceso1','Proceso1RecepcionLlamadaController');
     Route::resource('intranet/proceso2','Proceso2ConsejeriaController');
+    Route::resource('intranet/proceso3','Proceso3DespachoMovilController');
 
 
     Route::get('intranet/diagnosticoscie/altabaja/{id}/{var}','CieDiagnosticoController@altabaja');
