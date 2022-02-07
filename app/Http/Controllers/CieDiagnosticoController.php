@@ -100,6 +100,49 @@ class CieDiagnosticoController extends Controller
             'registros'=>$registros
         ];
     }
+
+    public function buscardiagnosticoscie(Request $request)
+     {
+        $cie10=$request->cie10;
+
+        $result='0';
+        $msj='Complete el Formulario';
+        $selector='';
+        
+        $diagnostico="";
+
+        $input1  = array('cie10' => $cie10);
+        $reglas1 = array('cie10' => 'required');
+
+        $validator1 = Validator::make($input1, $reglas1);
+
+
+        if ($validator1->fails())
+        {
+            $result='0';
+            $msj='Complete un Documento Válido (Mínimo 08 dígitos)';
+            $selector='txtcie101';
+
+        }
+
+        elseif (strlen($cie10)<4)
+        {
+            $result='0';
+            $msj='Ingrese un Registro válido, mínimo de 04 dígitos';
+            $selector='txtcie101';
+
+        }
+        else{
+            $diagnostico=CieDiagnostico::where('codigo',$cie10)->where('activo','1')->where('borrado','0')->first();
+            $result='1';
+            $msj='Ok';
+        }
+
+
+
+        return response()->json(["result"=>$result,'msj'=>$msj,'selector'=>$selector,'diagnostico'=>$diagnostico]);
+
+     }
     /**
      * Show the form for creating a new resource.
      *

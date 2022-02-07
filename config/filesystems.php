@@ -49,9 +49,9 @@ return [
             'visibility' => 'public',
          ],
 
-         'banerFacultad' => [
+         'fichamedica' => [
             'driver' => 'local',
-            'root' => public_path('web/bannerfec'), // banners facultades
+            'root' => public_path('web/fichamedica'), // ficha medica
             'visibility' => 'public',
          ],
          'banerProgramaEstudio' => [

@@ -298,8 +298,10 @@ class Proceso2ConsejeriaController extends Controller
             $paciente->tipo_edad=$tipo_edad;
             $paciente->seguro_id=$seguro_id;
             $paciente->proceso2_consejeria_id=$registro->id;
-            $registro->activo='1';
-            $registro->borrado='0';
+            $paciente->activo='1';
+            $paciente->borrado='0';
+
+            $paciente->save();
 
             $msj='Se ingresó correctamente el registro';
         }

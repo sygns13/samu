@@ -92,6 +92,9 @@ desired effect
 @elseif($modulo=="proceso3")
 @include('proceso3.despachounidad.vue')
 
+@elseif($modulo=="proceso4")
+@include('proceso4.asistenciamedica.vue')
+
 @endif
 
 <script type="text/javascript">

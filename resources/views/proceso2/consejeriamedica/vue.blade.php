@@ -216,9 +216,9 @@
                     this.fillobject.tipo_telefono=response.data.paciente.tipo_telefono;
                     this.fillobject.telefono=response.data.paciente.telefono;
                     this.fillobject.genero=response.data.paciente.genero;
-                    this.fillobject.edad=response.data.edad;
-                    this.fillobject.tipo_edad=response.data.tipo_edad;
-                    this.fillobject.seguro_id=response.data.seguro_id;
+                    this.fillobject.edad=response.data.paciente.edad;
+                    this.fillobject.tipo_edad=response.data.paciente.tipo_edad;
+                    this.fillobject.seguro_id=response.data.paciente.seguro_id;
                 }
 
             }).catch(error=>{

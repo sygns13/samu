@@ -15,7 +15,9 @@ class Proceso4AsistenciaMedica extends Model
                             'requirio_traslado',
                             'activo',
                             'borrado',
-                            'user_id'
+                            'user_id',
+                            'url',
+                            'codigo'
                         ];
 	protected $guarded = ['id'];
 }

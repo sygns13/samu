@@ -36,6 +36,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('recepcion_llamadas', 'Proceso1RecepcionLlamadaController@index1');
     Route::get('consejeria_medica', 'Proceso2ConsejeriaController@index1');
     Route::get('despacho_unidad', 'Proceso3DespachoMovilController@index1');
+    Route::get('asistencia_medica', 'Proceso4AsistenciaMedicaController@index1');
 
 
     Route::resource('intranet/diagnosticoscie','CieDiagnosticoController');
@@ -43,6 +44,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('intranet/proceso1','Proceso1RecepcionLlamadaController');
     Route::resource('intranet/proceso2','Proceso2ConsejeriaController');
     Route::resource('intranet/proceso3','Proceso3DespachoMovilController');
+    Route::resource('intranet/proceso4','Proceso4AsistenciaMedicaController');
 
 
     Route::get('intranet/diagnosticoscie/altabaja/{id}/{var}','CieDiagnosticoController@altabaja');
@@ -50,6 +52,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('intranet/personal/altabaja/{id}/{var}','PersonalController@altabaja');
 
     Route::post('intranet/buscarDocPaciente','PersonaController@buscarDocPaciente');
+    Route::post('intranet/buscardiagnosticoscie','CieDiagnosticoController@buscardiagnosticoscie');
 
    /*  
     Route::get('intranet/banner', 'BannerController@index1');
