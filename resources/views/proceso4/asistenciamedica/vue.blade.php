@@ -50,7 +50,7 @@
         registros: [],
         errors:[],
 
-        fillobject: { 'id':'', 'codigo':'', 'relato_evento': '', 'es_gestante': 0, 'ocurrencias_atencion': '', 'personal_medico_id': 0, 'personal_enfermera_id': 0, 'requirio_traslado': 0, 'url':'', 'antecedentes':{}, 'pacientes_asistencia':{}, 'enfermedad_actuals':{}, 'examen_preferencials': {}, 'gestantes': {}, 'mecanismos_lesions':{}, 'diagnosticos1':{}, 'diagnosticos2':{}, 'diagnosticos3':{}, 'diagnosticos4': {}, 'tratamientos':{}, 'procedimientos': {}, 'establecimiento_destinos': {}, 'responsables': {}},
+        fillobject: { 'id':'', 'codigo':'', 'relato_evento': '', 'es_gestante': 0, 'ocurrencias_atencion': '', 'personal_medico_id': 0, 'personal_enfermera_id': 0, 'requirio_traslado': 0, 'url':'', 'antecedentes':{}, 'pacientes_asistencia':{}, 'enfermedad_actuals':{}, 'examen_preferencials': {}, 'gestantes': {}, 'mecanismos_lesions':{}, 'diagnosticos1':{}, 'diagnosticos2':{}, 'diagnosticos3':{}, 'diagnosticos4': {}, 'tratamientos':{}, 'procedimientos': {}, 'establecimiento_destinos': {}, 'responsables': {}, archivo: null},
 
         antecedentes: { 'patologia_previa': '', 'medicacion':'', 'alergias':'', 'fur': '', 'gestacion': '', 'parto': '', 'aborto': ''},
 
@@ -197,7 +197,7 @@
         },
         cancelForm: function () {
 
-            this.fillobject = { 'id':'', 'codigo':'', 'relato_evento': '', 'es_gestante': 0, 'ocurrencias_atencion': '', 'personal_medico_id': 0, 'personal_enfermera_id': 0, 'requirio_traslado': 0, 'url':'', 'antecedentes':{}, 'pacientes_asistencia':{}, 'enfermedad_actuals':{}, 'examen_preferencials': {}, 'gestantes': {}, 'mecanismos_lesions':{}, 'diagnosticos1':{}, 'diagnosticos2':{}, 'diagnosticos3':{}, 'diagnosticos4': {}, 'tratamientos':{}, 'procedimientos': {}, 'establecimiento_destinos': {}, 'responsables': {}};
+            this.fillobject = { 'id':'', 'codigo':'', 'relato_evento': '', 'es_gestante': 0, 'ocurrencias_atencion': '', 'personal_medico_id': 0, 'personal_enfermera_id': 0, 'requirio_traslado': 0, 'url':'', 'antecedentes':{}, 'pacientes_asistencia':{}, 'enfermedad_actuals':{}, 'examen_preferencials': {}, 'gestantes': {}, 'mecanismos_lesions':{}, 'diagnosticos1':{}, 'diagnosticos2':{}, 'diagnosticos3':{}, 'diagnosticos4': {}, 'tratamientos':{}, 'procedimientos': {}, 'establecimiento_destinos': {}, 'responsables': {}, archivo: null};
 
             this.antecedentes = { 'patologia_previa': '', 'medicacion':'', 'alergias':'', 'fur': '', 'gestacion': '', 'parto': '', 'aborto': ''};
 
@@ -258,12 +258,13 @@
             this.fillobject.procedimientos = this.procedimientos;
             this.fillobject.establecimiento_destinos = this.establecimiento_destinos;
             this.fillobject.responsables = this.responsables;
+            this.fillobject.archivo = this.archivo;
 
 
             var data = new  FormData();
 
-            data.append('fillobject', this.fillobject);
-            data.append('archivo', this.archivo);
+            /* data.append('fillobject', this.fillobject);
+            data.append('archivo', this.archivo); */
 
 
             const config = { headers: { 'Content-Type': 'multipart/form-data' } };
