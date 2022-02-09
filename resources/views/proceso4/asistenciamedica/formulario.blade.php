@@ -182,13 +182,13 @@
             <div class="form-group col-md-3">
               <label for="Formula" style="display:block;">FORMULA OBSTERICA: </label>
               <label style="display:inline">G</label>
-              <input style="display:inline;width:25%;" type="number" size="2" id="txtgestacion" maxlength="2" required min="1" max="20" class="form-control " @keydown="$event.keyCode === 13 ? $event.preventDefault() : false" placeholder="Gestacion" v-model="antecedentes.gestacion" />
+              <input style="display:inline;width:25%;" type="number" size="2" id="txtgestacion" maxlength="2"  min="0" max="20" class="form-control " @keydown="$event.keyCode === 13 ? $event.preventDefault() : false" placeholder="Gestacion" v-model="antecedentes.gestacion" />
           
               <label style="display:inline">P</label>
-              <input style="display:inline;width:25%;" type="number" size="2" id="txtPartos" maxlength="2" required min="1" max="20" class="form-control " @keydown="$event.keyCode === 13 ? $event.preventDefault() : false" placeholder="Parto" v-model="antecedentes.parto" />
+              <input style="display:inline;width:25%;" type="number" size="2" id="txtPartos" maxlength="2"  min="0" max="20" class="form-control " @keydown="$event.keyCode === 13 ? $event.preventDefault() : false" placeholder="Parto" v-model="antecedentes.parto" />
           
               <label style="display:inline">A</label>
-              <input style="display:inline;width:25%;" type="number" size="2" id="txtAborto" maxlength="2" required min="1" max="20" class="form-control " @keydown="$event.keyCode === 13 ? $event.preventDefault() : false" placeholder="Aborto" v-model="antecedentes.aborto"/>
+              <input style="display:inline;width:25%;" type="number" size="2" id="txtAborto" maxlength="2"  min="0" max="20" class="form-control " @keydown="$event.keyCode === 13 ? $event.preventDefault() : false" placeholder="Aborto" v-model="antecedentes.aborto"/>
             </div>
 
           </div>
@@ -349,7 +349,7 @@
                                                 </div>
                                                     <div class="form-group col-md-3" style="display:inline;">
                                                     
-                                                  <input type="number" size="2" placeholder="mm" maxlength="3" required min="1" max="99" class="form-control" id="txtpupilas" style="display:inline;width:40%;" v-model='examen_preferencials.pupilas' /> 
+                                                  <input type="number" size="2" placeholder="mm" maxlength="3"  min="0" max="99" class="form-control" id="txtpupilas" style="display:inline;width:40%;" v-model='examen_preferencials.pupilas' /> 
                                                   <label style="display:inline: ">Pupilas (mm)</label> </div>
                                                  
                                                
@@ -501,12 +501,12 @@
 <div class="col-md-12" id="msj4G"></div> 
 <div class="form-group col-md-1">
 <label for="txtau">AU:</label>
-<input type="number" size="2" placeholder="cm" maxlength="2" required min="8" max="50" class="form-control" id="txtau" v-model='gestantes.au'  /> 
+<input type="number" size="2" placeholder="cm" maxlength="2"  min="8" max="50" class="form-control" id="txtau" v-model='gestantes.au'  /> 
 </div>
 
 <div class="form-group col-md-1">
 <label for="txtfcf">FCF:</label>
-<input type="number" size="2" placeholder="lm" maxlength="3" required min="120" max="160" class="form-control" id="txtfcf" v-model='gestantes.fcf' /> 
+<input type="number" size="2" placeholder="lm" maxlength="3"  min="120" max="160" class="form-control" id="txtfcf" v-model='gestantes.fcf' /> 
 </div>
 
 <div class="form-group col-md-2">
@@ -560,7 +560,7 @@
 
 <div class="form-group col-md-1">
 <label for="txtdu">DU: D:</label>
-<input type="number" size="2" placeholder="sg" maxlength="2" required min="1" max="30" class="form-control" id="txtdu" v-model='gestantes.du'  /> 
+<input type="number" size="2" placeholder="sg" maxlength="2"  min="0" max="30" class="form-control" id="txtdu" v-model='gestantes.du'  /> 
 </div>
 
 
@@ -576,17 +576,17 @@
 
 <div class="form-group col-md-1">
 <label for="txtf">F:</label>
-<input type="number" size="2" placeholder="sg" maxlength="2" required min="1" max="30" class="form-control" id="txtf" v-model='gestantes.f'  /> 
+<input type="number" size="2" placeholder="sg" maxlength="2"  min="0" max="30" class="form-control" id="txtf" v-model='gestantes.f'  /> 
 </div>
 
 <div class="form-group col-md-2">
 <label for="txtdilatacion">TV: Dilatacón:</label>
-<input type="number" size="2" placeholder="cm" maxlength="2" required min="1" max="10" class="form-control" id="txtdilatacion" v-model='gestantes.dilatacion'   /> 
+<input type="number" size="2" placeholder="cm" maxlength="2"  min="0" max="10" class="form-control" id="txtdilatacion" v-model='gestantes.dilatacion'   /> 
 </div>
 
 <div class="form-group col-md-1">
 <label for="txtb">B:</label>
-<input type="number" size="2" placeholder="%" maxlength="3" required min="1" max="100" class="form-control" id="txtb" v-model='gestantes.n'  /> 
+<input type="number" size="2" placeholder="%" maxlength="3"  min="0" max="100" class="form-control" id="txtb" v-model='gestantes.n'  /> 
 </div>
 
 
@@ -848,11 +848,11 @@
             <div class="col-md-12">
       <div class="form-group col-md-2" >
           <label for="txtcaida_altura">CAIDA DE ALTURA:</label>
-          <input type="number" size="2" placeholder="Metros" maxlength="3" required min="1" max="50" class="form-control" id="txtcaida_altura" v-model="mecanismos_lesions.caida_altura"/>
+          <input type="number" size="2" placeholder="Metros" maxlength="3"  min="0" max="50" class="form-control" id="txtcaida_altura" v-model="mecanismos_lesions.caida_altura"/>
         </div>
         <div class="form-group col-md-2" >
           <label for="txtquemaduras">QUEMADURAS:</label>
-          <input type="number" size="2" placeholder="%" maxlength="3" required min="1" max="100" class="form-control" id="txtquemaduras" v-model="mecanismos_lesions.quemaduras"/>
+          <input type="number" size="2" placeholder="%" maxlength="3"  min="0" max="100" class="form-control" id="txtquemaduras" v-model="mecanismos_lesions.quemaduras"/>
         </div>
 
         <div class="form-group col-md-2">
@@ -1125,7 +1125,7 @@
 
           <div class="form-group col-md-12">
             <label for="txtocurrencias_atencion">RELATO DEL EVENTO:</label>
-          <textarea class="form-control" rows="5"   placeholder="Ocurrencias durante la atención" id="txtocurrencias_atencion" v-model="fillobject.relato_evento" v-model="fillobject.ocurrencias_atencion"></textarea>
+          <textarea class="form-control" rows="5"   placeholder="Ocurrencias durante la atención" id="txtocurrencias_atencion" v-model="fillobject.ocurrencias_atencion"></textarea>
           </div>
 
         </div>

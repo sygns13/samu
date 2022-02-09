@@ -75,7 +75,7 @@
 
         establecimiento_destinos: {'hora_llegada': '', 'establecimiento': 0, 'categoria': '', 'hora_recepcion': '', 'profesional_acepta':'', 'apellidos_nombres_profecional': '', 'hora_salida': ''},
 
-        responsables: {'tipo_documento_id': 0, 'nro_documento': '', 'apellidos': '', 'nombres': '', 'parentesco': 'NO IDENTIFICADO', 'pertenencias_paciente': '', 'email': ''},
+        responsables: {'tipo_documento_id': 0, 'nro_documento': '', 'apellidos': '', 'nombres': '', 'parentesco': 'NO IDENTIFICADO', 'pertenencias_paciente': ''},
 
 
         pagination: {
@@ -222,7 +222,7 @@
 
             this.establecimiento_destinos = {'hora_llegada': '', 'establecimiento': 0, 'categoria': '', 'hora_recepcion': '', 'profesional_acepta':'', 'apellidos_nombres_profecional': '', 'hora_salida': ''};
 
-            this.responsables = {'tipo_documento_id': 0, 'nro_documento': '', 'apellidos': '', 'nombres': '', 'parentesco': 'NO IDENTIFICADO', 'pertenencias_paciente': '', 'email': ''};
+            this.responsables = {'tipo_documento_id': 0, 'nro_documento': '', 'apellidos': '', 'nombres': '', 'parentesco': 'NO IDENTIFICADO', 'pertenencias_paciente': ''};
 
             this.archivo=null;
             this.uploadReady = false
