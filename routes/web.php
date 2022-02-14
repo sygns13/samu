@@ -39,6 +39,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('asistencia_medica', 'Proceso4AsistenciaMedicaController@index1');
 
     Route::get('reporte1', 'ReporteController@index1');
+    Route::get('reporte2', 'ReporteController@index2');
 
 
     Route::resource('intranet/diagnosticoscie','CieDiagnosticoController');
@@ -57,6 +58,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('intranet/buscarDocPaciente','PersonaController@buscarDocPaciente');
     Route::post('intranet/buscardiagnosticoscie','CieDiagnosticoController@buscardiagnosticoscie');
     Route::post('intranet/proceso4cargarfile','Proceso4AsistenciaMedicaController@cargarfile');
+    Route::post('intranet/reporteestadistico','ReporteController@reporteestadistico');
 
    /*  
     Route::get('intranet/banner', 'BannerController@index1');

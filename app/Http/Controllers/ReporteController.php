@@ -85,6 +85,195 @@ class ReporteController extends Controller
     }
 
 
+    public function index2()
+    {
+        if(accesoUser([1,2,3])){
+
+
+            $idtipouser=Auth::user()->tipouser_id;
+            $tipouser=Tipouser::find($idtipouser);
+
+           /*  $samus=Samu::orderBy('id')->where('borrado','0')->get();
+            $turnos=Turno::orderBy('id')->where('borrado','0')->get();
+            $tipoLlamadas=TipoLlamada::orderBy('id')->where('borrado','0')->get();
+            $localizacionLlamadas=LocalizacionLlamadas::orderBy('id')->where('borrado','0')->get();
+            $operadors=Personal::where('cargo_id','4')->where('borrado','0')->orderBy('apellidos')->orderBy('id')->get(); */
+
+            $modulo="reporte2";
+
+            return view('reportes.reporte2.index',compact('tipouser','modulo'));
+        }
+        else
+        {
+            return redirect('home');    
+        }
+    }
+
+    public function reporteestadistico(Request $request)
+    {
+
+        $tipo=$request->tipo;
+        $fecha=$request->fecha;
+        $anio=$request->anio;
+        $mes=$request->mes;
+
+        $reporte = new stdClass();
+        $resquery = null;
+
+
+        $result='1';
+        $msj='';
+        $selector='';
+
+        $proceso1=Proceso1RecepcionLlamada::where('borrado','0');
+        $proceso2=Proceso2Consejeria::where('borrado','0');
+        $proceso3=Proceso3DespachoMovil::where('borrado','0');
+        $proceso4=Proceso4AsistenciaMedica::where('borrado','0');
+
+        if(intval($tipo) == 0){
+
+            $input1  = array('fecha' => $fecha);
+            $reglas1 = array('fecha' => 'required');
+
+            $validator1 = Validator::make($input1, $reglas1);
+
+            if ($validator1->fails())
+            {
+                $result='0';
+                $msj='Debe ingresar la fecha de búsqueda';
+                $selector='txtfecha';
+
+                return response()->json(["result"=>$result,'msj'=>$msj,'selector'=>$selector, 'reporte'=>$reporte]);
+            }
+
+            $res1 = $proceso1
+            ->where('fecha',$fecha)
+            ->count();
+
+            $res2 = $proceso2
+            ->whereRaw('date(created_at) = ?', [$fecha])
+            ->count();
+
+            $res3 = $proceso3
+            ->whereRaw('date(created_at) = ?', [$fecha])
+            ->count();
+
+            $res4 = $proceso4
+            ->whereRaw('date(created_at) = ?', [$fecha])
+            ->count();
+
+            $reporte->res1=$res1;
+            $reporte->res2=$res2;
+            $reporte->res3=$res3;
+            $reporte->res4=$res4;
+
+            $msj='Se obtuvo el reporte solicitado ';
+        }
+
+        elseif(intval($tipo) == 1){
+
+            $input1  = array('anio' => $anio);
+            $reglas1 = array('anio' => 'required');
+
+            $input2  = array('mes' => $mes);
+            $reglas2 = array('mes' => 'required');
+
+            $validator1 = Validator::make($input1, $reglas1);
+            $validator2 = Validator::make($input2, $reglas2);
+
+            if ($validator1->fails() || intval($anio) == 0)
+            {
+                $result='0';
+                $msj='Debe seleccionar el año de búsqueda';
+                $selector='cbuAnio';
+
+                return response()->json(["result"=>$result,'msj'=>$msj,'selector'=>$selector, 'reporte'=>$reporte]);
+            }
+
+            if ($validator2->fails() || intval($mes) == 0)
+            {
+                $result='0';
+                $msj='Debe seleccionar el mes de búsqueda';
+                $selector='cbuMes';
+
+                return response()->json(["result"=>$result,'msj'=>$msj,'selector'=>$selector, 'reporte'=>$reporte]);
+            }
+
+            $res1 = $proceso1
+            ->whereRaw('year(fecha) = ?', [$anio])
+            ->whereRaw('month(fecha) = ?', [$mes])
+            ->count();
+
+            $res2 = $proceso2
+            ->whereRaw('year(created_at) = ?', [$anio])
+            ->whereRaw('month(created_at) = ?', [$mes])
+            ->count();
+
+            $res3 = $proceso3
+            ->whereRaw('year(created_at) = ?', [$anio])
+            ->whereRaw('month(created_at) = ?', [$mes])
+            ->count();
+
+            $res4 = $proceso4
+            ->whereRaw('year(created_at) = ?', [$anio])
+            ->whereRaw('month(created_at) = ?', [$mes])
+            ->count();
+
+            $reporte->res1=$res1;
+            $reporte->res2=$res2;
+            $reporte->res3=$res3;
+            $reporte->res4=$res4;
+
+            $msj='Se obtuvo el reporte solicitado ';
+        }
+
+        elseif(intval($tipo) == 2){
+
+            $input1  = array('anio' => $anio);
+            $reglas1 = array('anio' => 'required');
+
+            $validator1 = Validator::make($input1, $reglas1);
+
+            if ($validator1->fails() || intval($anio) == 0)
+            {
+                $result='0';
+                $msj='Debe seleccionar el año de búsqueda';
+                $selector='cbuAnio';
+
+                return response()->json(["result"=>$result,'msj'=>$msj,'selector'=>$selector, 'reporte'=>$reporte]);
+            }
+
+
+            $res1 = $proceso1
+            ->whereRaw('year(fecha) = ?', [$anio])
+            ->count();
+
+            $res2 = $proceso2
+            ->whereRaw('year(created_at) = ?', [$anio])
+            ->count();
+
+            $res3 = $proceso3
+            ->whereRaw('year(created_at) = ?', [$anio])
+            ->count();
+
+            $res4 = $proceso4
+            ->whereRaw('year(created_at) = ?', [$anio])
+            ->count();
+
+            $reporte->res1=$res1;
+            $reporte->res2=$res2;
+            $reporte->res3=$res3;
+            $reporte->res4=$res4;
+
+            $msj='Se obtuvo el reporte solicitado ';
+        }
+
+
+        return response()->json(["result"=>$result,'msj'=>$msj,'selector'=>$selector, 'reporte'=>$reporte]);
+
+    }
+
+
     public function index(Request $request)
     {
         $buscar=$request->busca;

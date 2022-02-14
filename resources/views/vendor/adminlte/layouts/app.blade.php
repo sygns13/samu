@@ -100,6 +100,9 @@ desired effect
 @elseif($modulo=="reporte1")
 @include('reportes.reporte1.vue')
 
+@elseif($modulo=="reporte2")
+@include('reportes.reporte2.vue')
+
 
 @endif
 
