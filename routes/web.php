@@ -49,16 +49,22 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('intranet/proceso3','Proceso3DespachoMovilController');
     Route::resource('intranet/proceso4','Proceso4AsistenciaMedicaController');
     Route::resource('intranet/reporte','ReporteController');
+    Route::resource('usuario','UserController');
 
 
     Route::get('intranet/diagnosticoscie/altabaja/{id}/{var}','CieDiagnosticoController@altabaja');
     Route::get('intranet/diagnosticos/getdiagnosticos','CieDiagnosticoController@GetDiagnosticosCIE');
     Route::get('intranet/personal/altabaja/{id}/{var}','PersonalController@altabaja');
+    Route::get('usuario/altabaja/{id}/{var}','UserController@altabaja');
 
     Route::post('intranet/buscarDocPaciente','PersonaController@buscarDocPaciente');
     Route::post('intranet/buscardiagnosticoscie','CieDiagnosticoController@buscardiagnosticoscie');
     Route::post('intranet/proceso4cargarfile','Proceso4AsistenciaMedicaController@cargarfile');
     Route::post('intranet/reporteestadistico','ReporteController@reporteestadistico');
+
+
+    Route::post('usuario/miperfil','UserController@miperfil');
+    Route::post('usuario/modificarclave','UserController@modificarclave');
 
    /*  
     Route::get('intranet/banner', 'BannerController@index1');

@@ -33,10 +33,10 @@
         classMenu3:'',
         classMenu4:'',
         classMenu5:'',
-        classMenu6:'',
+        classMenu6:'active',
         classMenu7:'',
         classMenu8:'',
-        classMenu9:'active',
+        classMenu9:'',
         classMenu10:'',
         classMenu11:'',
         classMenu12:'',
@@ -53,7 +53,7 @@
         user:[],
         errors:[],
 
-        filluser:{ 'id':'', 'name':'', 'email':'', 'activo':'','persona_id':'','tipouser_id':'','dni':'','apellidos':'','nombres':'','telefono':'','direccion':'','cargo':'','tipouser':'','modifpassword': 0 , 'password':'', 'programaestudio_id':'', 'programaestudio':''},
+        filluser:{ 'id':'', 'name':'', 'email':'', 'activo':'','personal_id':'','tipouser_id':'','codPersonal':'','docPersonal':'','apePersonal':'','nomPersonal':'','telPersonal':'','genPersonal':'','ocuPersonal':'','modifpassword': 0 , 'tipoDocPersonal':0, 'cargoPersonal':'', 'tipouser':'' , 'estadoCivilPersonal':''},
 
         pagination: {
             'total': 0,
@@ -72,16 +72,9 @@
         name : '',
         email : '',
         activo : 1,
-        persona_id : 0,
+        personal_id : 0,
         tipouser_id : 0,
-        dni : '',
-        apellidos : '',
-        nombres : '',
-        telefono : '',
-        direccion : '',
-        cargo : '',
         password : '',
-        programaestudio_id : 0,
 
 
         divloaderNuevo:false,
@@ -222,88 +215,17 @@
             this.name = '';
             this.email = '';
             this.activo = 1;
-            this.persona_id = 0;
+            this.personal_id = 0;
             this.tipouser_id = 0;
-            this.dni = '';
-            this.apellidos = '';
-            this.nombres = '';
-            this.telefono = '';
-            this.direccion = '';
-            this.cargo = '';
+          
             this.password = '';
-            this.programaestudio_id = 0;
+            
 
             this.divEditUsuario=false;
 
 
         },
-        pressNuevoDNI: function() {
 
-var url='persona/buscarDNI';
-
-   axios.post(url,{dni:this.dni}).then(response=>{
-
-       if(String(response.data.result)=='1'){
-
-        console.log("aqui1");
-
-            this.apellidos = '';
-            this.nombres = '';
-            this.telefono = '';
-            this.direccion = '';
-            this.cargo = '';
-
-            this.persona_id = 0;
-
-
-           this.formularioCrear=true;
-
-           this.$nextTick(function () {
-                $("#txtapellidos").focus();
-            });
-
-           toastr.success(response.data.msj);
-       }else if (String(response.data.result)=='2') {
-
-        
-
-        this.apellidos = response.data.persona.apellidos;
-        this.nombres = response.data.persona.nombres;
-        this.telefono = response.data.persona.telefono;
-        this.direccion = response.data.persona.direccion;
-        this.cargo = response.data.persona.cargo;
-
-        this.persona_id = response.data.idPer;
-
-
-        this.formularioCrear=true;
-
-        this.$nextTick(function () {
-                $("#txtapellidos").focus();
-            });
-
-           toastr.success(response.data.msj);
-
-        }else{
-            console.log("aqui3");
-            this.apellidos = '';
-            this.nombres = '';
-            this.telefono = '';
-            this.direccion = '';
-            this.cargo = '';
-
-            this.persona_id = 0;
-
-            this.formularioCrear=false;
-           $('#'+response.data.selector).focus();
-           $('#'+response.data.selector).css( "border", "1px solid red" );
-           toastr.error(response.data.msj);
-       }
-   }).catch(error=>{
-       //this.errors=error.response.data
-   })
-
-},
         createUsuario:function () {
             var url='usuario';
 
@@ -319,16 +241,11 @@ var url='persona/buscarDNI';
             data.append('name', this.name);
             data.append('email', this.email);
             data.append('activo', this.activo);
-            data.append('persona_id', this.persona_id);
+            data.append('personal_id', this.personal_id);
             data.append('tipouser_id', this.tipouser_id);
-            data.append('dni', this.dni);
-            data.append('apellidos', this.apellidos);
-            data.append('nombres', this.nombres);
-            data.append('telefono', this.telefono);
-            data.append('direccion', this.direccion);
-            data.append('cargo', this.cargo);
+           
             data.append('password', this.password);
-            data.append('programaestudio_id', this.programaestudio_id);
+            
 
 
             const config = { headers: { 'Content-Type': 'multipart/form-data' } };
@@ -387,15 +304,19 @@ var url='persona/buscarDNI';
             this.filluser.name=usuario.name;
             this.filluser.email=usuario.email;
             this.filluser.activo=usuario.activo;
-            this.filluser.persona_id=usuario.persona_id;
+            this.filluser.personal_id=usuario.personal_id;
             this.filluser.tipouser_id=usuario.tipouser_id;
-            this.filluser.programaestudio_id=usuario.programaestudio_id;
-            this.filluser.dni=usuario.dni;
-            this.filluser.apellidos=usuario.apellidos;
-            this.filluser.nombres=usuario.nombres;
-            this.filluser.telefono=usuario.telefono;
-            this.filluser.direccion=usuario.direccion;
-            this.filluser.cargo=usuario.cargo;
+            this.filluser.codPersonal=usuario.codPersonal;
+            this.filluser.docPersonal=usuario.docPersonal;
+            this.filluser.apePersonal=usuario.apePersonal;
+            this.filluser.nomPersonal=usuario.nomPersonal;
+            this.filluser.telPersonal=usuario.telPersonal;
+            this.filluser.genPersonal=usuario.genPersonal;
+            this.filluser.ocuPersonal=usuario.ocuPersonal;
+            this.filluser.tipoDocPersonal=usuario.tipoDocPersonal;
+            this.filluser.cargoPersonal=usuario.cargoPersonal;
+            this.filluser.tipouser=usuario.tipouser;
+            this.filluser.estadoCivilPersonal=usuario.estadoCivilPersonal;
             this.filluser.modifpassword= 0;
             this.filluser.password='';
            
@@ -410,7 +331,7 @@ var url='persona/buscarDNI';
             this.divEditUsuario=false;
 
             this.$nextTick(function () {
-                this.filluser={ 'id':'', 'name':'', 'email':'', 'activo':'','persona_id':'','tipouser_id':'','dni':'','apellidos':'','nombres':'','telefono':'','direccion':'','cargo':'','tipouser':'','modifpassword': 0 , 'password':'', 'programaestudio_id':'', 'programaestudio':''};
+                this.filluser={ 'id':'', 'name':'', 'email':'', 'activo':'','personal_id':'','tipouser_id':'','codPersonal':'','docPersonal':'','apePersonal':'','nomPersonal':'','telPersonal':'','genPersonal':'','ocuPersonal':'','modifpassword': 0 , 'tipoDocPersonal':0, 'cargoPersonal':'', 'tipouser':'' , 'estadoCivilPersonal':''};
     
             })
 
@@ -426,12 +347,7 @@ var url='persona/buscarDNI';
             }
 
         },
-        modifTipoUser: function(){
-            this.programaestudio_id = 0;
-        },
-        modifTipoUserE: function(){
-            this.filluser.programaestudio_id = 0;
-        },
+
         updateUsuario: function (id) {
 
             var url="usuario/"+id;

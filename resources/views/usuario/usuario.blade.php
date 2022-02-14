@@ -27,7 +27,7 @@
 
 <div class="box box-warning" v-if="divEditUsuario">
   <div class="box-header with-border" style="border: 1px solid #f39c12; background-color: #f39c12; color: white;">
-    <h3 class="box-title" id="tituloAgregar">Editar Usuario: @{{ filluser.nombres }} @{{ filluser.apellidos }} - @{{ filluser.cargo }}
+    <h3 class="box-title" id="tituloAgregar">Editar Usuario: @{{ filluser.nomPersonal }} @{{ filluser.apePersonal }} - @{{ filluser.cargoPersonal }}
 
 
     </h3>
@@ -60,30 +60,30 @@
       <tbody><tr>
         <th style="padding: 5px; width: 5%;">#</th>
         <th style="padding: 5px; width: 10%;">Tipo de Usuario</th>
-        <th style="padding: 5px; width: 7%;">DNI</th>
+        <th style="padding: 5px; width: 7%;">Documento de Identidad</th>
         <th style="padding: 5px; width: 15%;">Apellidos y Nombres</th>
-        <th style="padding: 5px; width: 10%;">Usuario</th> 
+        <th style="padding: 5px; width: 10%;">Username</th> 
         <th style="padding: 5px; width: 19%;">Cargo</th> 
         <th style="padding: 5px; width: 15%;">Email</th> 
         <th style="padding: 5px; width: 6%;">Estado</th>
         <th style="padding: 5px; width: 13%;">Gestión</th>
       </tr>
       <tr v-for="usuario, key in usuarios">
-        <td style="font-size: 11px; padding: 5px;">@{{key+pagination.from}}</td>
-        <td style="font-size: 11px; padding: 5px;">@{{ usuario.tipouser }}</td>
-        <td style="font-size: 11px; padding: 5px;">@{{ usuario.dni }}</td>
-        <td style="font-size: 11px; padding: 5px;">@{{ usuario.apellidos }}, @{{ usuario.nombres }}</td>
-        <td style="font-size: 11px; padding: 5px;">@{{ usuario.name }}</td>
-        <td style="font-size: 11px; padding: 5px;">@{{ usuario.cargo }}</td>
-        <td style="font-size: 11px; padding: 5px;">@{{ usuario.email }}</td>
-        <td style="font-size: 11px; padding: 5px; text-align: center;">
+        <td style="font-size: 12px; padding: 5px;">@{{key+pagination.from}}</td>
+        <td style="font-size: 12px; padding: 5px;">@{{ usuario.tipouser }}</td>
+        <td style="font-size: 12px; padding: 5px;">@{{ usuario.tipoDocPersonal }}: @{{ usuario.docPersonal }}</td>
+        <td style="font-size: 12px; padding: 5px;">@{{ usuario.apePersonal }}, @{{ usuario.nomPersonal }}</td>
+        <td style="font-size: 12px; padding: 5px;">@{{ usuario.name }}</td>
+        <td style="font-size: 12px; padding: 5px;">@{{ usuario.cargoPersonal }}</td>
+        <td style="font-size: 12px; padding: 5px;">@{{ usuario.email }}</td>
+        <td style="font-size: 12px; padding: 5px; text-align: center;">
          <span class="label label-success" v-if="usuario.activo=='1'">Activo</span>
          <span class="label label-warning" v-if="usuario.activo=='0'">Inactivo</span>
        </td>
-       <td style="font-size: 11px; padding: 5px;">
+       <td style="font-size: 12px; padding: 5px;">
 
-        <a href="#" class="btn btn-info btn-sm" v-on:click.prevent="impFicha(usuario)" data-placement="top" data-toggle="tooltip" title="Imprimir Ficha de Usuario"><i class="fa fa-print"></i></a>
-
+        {{-- <a href="#" class="btn btn-info btn-sm" v-on:click.prevent="impFicha(usuario)" data-placement="top" data-toggle="tooltip" title="Imprimir Ficha de Usuario"><i class="fa fa-print"></i></a>
+ --}}
 
         <a href="#" v-if="usuario.activo=='1'" class="btn bg-navy btn-sm" v-on:click.prevent="bajaUsuario(usuario)" data-placement="top" data-toggle="tooltip" title="Desactivar Usuario"><i class="fa fa-arrow-circle-down"></i></a>
 

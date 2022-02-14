@@ -6,10 +6,10 @@
 
     <div class="col-md-12" style="padding-top: 15px;">
       <div class="form-group">
-        <label for="txtdni" class="col-sm-2 control-label">DNI:*</label>
+        <label for="txtdni" class="col-sm-2 control-label">Documento de Identidad:*</label>
         <div class="col-sm-2">
           <input type="text" class="form-control" id="txtdni" name="txtdni" placeholder="N° de DNI" maxlength="20"
-            autofocus v-model="filluser.dni" 
+            autofocus v-model="filluser.docPersonal" 
             onkeypress="return noEscribe(event);" readonly="true" disabled="true">
         </div>
       </div>
@@ -21,7 +21,7 @@
         <div class="col-sm-8">
           <input type="text" class="form-control" id="txtnombre" name="txtnombre" placeholder="Nombres y Apellidos"
             maxlength="500" 
-            v-model="filluser.nombres"  onkeypress="return noEscribe(event);" readonly="true" disabled="true">
+            v-model="filluser.nomPersonal"  onkeypress="return noEscribe(event);" readonly="true" disabled="true">
         </div>
       </div>
     </div>
@@ -32,7 +32,7 @@
         <div class="col-sm-8">
           <input type="text" class="form-control" id="txtcargo" name="txtcargo" placeholder="Cargo"
             maxlength="500" 
-            v-model="filluser.cargo"  onkeypress="return noEscribe(event);" readonly="true" disabled="true">
+            v-model="filluser.cargoPersonal"  onkeypress="return noEscribe(event);" readonly="true" disabled="true">
         </div>
       </div>
     </div>
@@ -43,15 +43,10 @@
         <div class="col-sm-3">
             <input type="text" class="form-control" id="txttelefono" name="txttelefono" placeholder="Teléfono"
             maxlength="50" 
-            v-model="filluser.telefono"  onkeypress="return noEscribe(event);" readonly="true" disabled="true">
+            v-model="filluser.telPersonal"  onkeypress="return noEscribe(event);" readonly="true" disabled="true">
         </div>
 
-        <label for="txtDirE" class="col-sm-1 control-label">Dirección:</label>
-        <div class="col-sm-4">
-          <input type="text" class="form-control" id="txtDirE" name="txtDirE" placeholder="Av. Jr. Psje."
-            maxlength="500" 
-            v-model="filluser.direccion"  onkeypress="return noEscribe(event);" readonly="true" disabled="true">
-        </div>
+
       </div>
     </div>
 
@@ -75,16 +70,6 @@
     </div>
 
 
-    <div class="col-md-12" style="padding-top: 15px; color: black;" v-if="filluser.idtipouser==4">
-      <div class="form-group">
-        <label for="cbuprogramaestudio" class="col-sm-2 control-label">Programa de Estudio Asignado:*</label>
-        <div class="col-sm-4">
-            <input type="text" class="form-control" id="cbuprogramaestudio" name="cbuprogramaestudio" placeholder="Nombres"
-            maxlength="500" 
-            v-model="filluser.programaestudio"  onkeypress="return noEscribe(event);" readonly="true" disabled="true">
-        </div>
-      </div>
-    </div>
 
     <div class="col-md-12" style="padding-top: 15px;">
       <div class="form-group">

@@ -51,7 +51,7 @@
            persona:[],
            user:[],
            errors:[],
-           filluser:{ 'id':'', 'name':'', 'email':'', 'activo':'','persona_id':'','tipouser_id':'','dni':'','apellidos':'','nombres':'','telefono':'','direccion':'','cargo':'','tipouser':'','modifpassword': 0 , 'password':'', 'programaestudio_id':'', 'programaestudio':''},
+           filluser:{ 'id':'', 'name':'', 'email':'', 'activo':'','personal_id':'','tipouser_id':'','codPersonal':'','docPersonal':'','apePersonal':'','nomPersonal':'','telPersonal':'','genPersonal':'','ocuPersonal':'','modifpassword': 0 , 'tipoDocPersonal':0, 'cargoPersonal':'', 'tipouser':'' , 'estadoCivilPersonal':''},
    
            pagination: {
                'total': 0,
@@ -155,23 +155,23 @@
    
                axios.post(url).then(response=>{
 
-               // console.log(response);
             this.filluser.id=response.data.usuario.id;
             this.filluser.name=response.data.usuario.name;
             this.filluser.email=response.data.usuario.email;
             this.filluser.activo=response.data.usuario.activo;
-            this.filluser.persona_id=response.data.usuario.persona_id;
+            this.filluser.personal_id=response.data.usuario.personal_id;
             this.filluser.tipouser_id=response.data.usuario.tipouser_id;
-            this.filluser.programaestudio_id=response.data.usuario.programaestudio_id;
-            this.filluser.dni=response.data.usuario.dni;
-            this.filluser.apellidos=response.data.usuario.apellidos;
-            this.filluser.nombres=response.data.usuario.nombres+' '+this.filluser.apellidos;
-            this.filluser.telefono=response.data.usuario.telefono;
-            this.filluser.direccion=response.data.usuario.direccion;
-            this.filluser.cargo=response.data.usuario.cargo;
-            
+            this.filluser.codPersonal=response.data.usuario.codPersonal;
+            this.filluser.docPersonal=response.data.usuario.tipoDocPersonal + ' ' + response.data.usuario.docPersonal;
+            this.filluser.apePersonal=response.data.usuario.apePersonal;
+            this.filluser.nomPersonal=response.data.usuario.nomPersonal + ' ' + this.filluser.apePersonal;
+            this.filluser.telPersonal=response.data.usuario.telPersonal;
+            this.filluser.genPersonal=response.data.usuario.genPersonal;
+            this.filluser.ocuPersonal=response.data.usuario.ocuPersonal;
+            this.filluser.tipoDocPersonal=response.data.usuario.tipoDocPersonal;
+            this.filluser.cargoPersonal=response.data.usuario.cargoPersonal;
             this.filluser.tipouser=response.data.usuario.tipouser;
-            this.filluser.programaestudio=response.data.usuario.programaestudio;
+            this.filluser.estadoCivilPersonal=response.data.usuario.estadoCivilPersonal;
                })
            },
            

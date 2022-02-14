@@ -7,10 +7,12 @@ use Validator;
 use Auth;
 use DB;
 
-use App\Persona;
+use App\Personal;
 use App\Tipouser;
 use App\User;
-use App\Programaestudio;
+use App\Cargo;
+
+
 
 
 use Illuminate\Support\Facades\Hash;
@@ -37,10 +39,16 @@ class UserController extends Controller
 
             $modulo="usuario";
             $tipousers=Tipouser::orderBy('id')->where('borrado','0')->get();
-            $programaestudios=Programaestudio::orderBy('id')->where('borrado','0')->get();
+
+            $personals=Personal::orderBy('id')->where('borrado','0')->get();
+
+            foreach ($personals as $personal) {
+                $cargo=Cargo::where('id', $personal->cargo_id)->first();
+                $personal->cargo=$cargo;
+            }
 
 
-            return view('usuario.index',compact('tipouser','modulo','tipousers','programaestudios'));
+            return view('usuario.index',compact('tipouser','modulo','tipousers','personals'));
         }
         else
         {
@@ -73,85 +81,50 @@ class UserController extends Controller
 
         $usuarios = DB::table('users')
         ->join('tipousers', 'tipousers.id', '=', 'users.tipouser_id')
-        ->join('personas', 'personas.id', '=', 'users.persona_id')
+        ->join('personals', 'personals.id', '=', 'users.personal_id')
 
-        ->leftjoin('programaestudios', 'programaestudios.id', '=', 'users.programaestudio_id')
+        ->join('tipo_documentos', 'tipo_documentos.id', '=', 'personals.tipo_documento_id')
+        ->join('estado_civils', 'estado_civils.id', '=', 'personals.estado_civil_id')
+        ->join('cargos', 'cargos.id', '=', 'personals.cargo_id')
+
+
 
         ->where('users.borrado','0')
         ->where(function($query) use ($buscar){
-            $query->where('personas.dni','like','%'.$buscar.'%');
-            $query->orWhere('users.name','like','%'.$buscar.'%');
-        $query->orWhere('personas.apellidos','like','%'.$buscar.'%');
-        $query->orWhere('personas.nombres','like','%'.$buscar.'%');
-        $query->orWhere('users.email','like','%'.$buscar.'%');
-            })
-        ->orderBy('tipousers.id')
-        ->orderBy('personas.apellidos')
-        ->orderBy('personas.nombres')
-        ->orderBy('users.name')
-        ->select('users.id as id','users.name','users.email','users.activo','users.borrado','users.persona_id','users.tipouser_id', 'users.programaestudio_id',
-        'personas.id as idpersona','personas.dni','personas.apellidos','personas.nombres','personas.telefono','personas.direccion','personas.cargo',
-        'tipousers.id as idtipouser','tipousers.nombre as tipouser',
-        DB::Raw("IFNULL( `programaestudios`.`id` , '0' ) as idprogramaestudios"),
-        DB::Raw("IFNULL( `programaestudios`.`nombre` , '' ) as programaestudio"),
-        )
+            $query->Where('users.name','like','%'.$buscar.'%');
+            $query->orWhere('users.email','like','%'.$buscar.'%');
+            $query->orWhere('personals.nro_documento','like','%'.$buscar.'%');
+            $query->orWhere('personals.apellidos','like','%'.$buscar.'%');
+            $query->orWhere('personals.nombres','like','%'.$buscar.'%');
+            }) 
+         ->orderBy('tipousers.id')
+        ->orderBy('personals.apellidos')
+        ->orderBy('personals.nombres')
+     ->orderBy('users.name')
+        ->select('users.id as id','users.name','users.email','users.activo','users.borrado','users.personal_id','users.tipouser_id',
+        'personals.codigo as codPersonal',
+
+        'tipousers.nombre as tipouser',
+
+        'personals.nro_documento as docPersonal',
+        'personals.apellidos as apePersonal',
+        'personals.nombres as nomPersonal',
+        'personals.telefono as telPersonal',
+        'personals.genero as genPersonal',
+        'personals.ocupacion as ocuPersonal',
+
+        'tipo_documentos.tipo as tipoDocPersonal',
+        'cargos.descripcion as cargoPersonal',
+        'estado_civils.descripcion as estadoCivilPersonal' 
+         )
         ->paginate(30);
 
-        
-        /*
-        $users=$usuarios->items();
+      /*   $usuarios = DB::table('users')
+        ->where('users.borrado','0')
+        ->orderBy('users.name')
+        ->select('users.id as id','users.name','users.email','users.activo','users.borrado','users.personal_id','users.tipouser_id')
+        ->paginate(30); */
 
-
-
-        foreach ($users as $key => $dato) {
-
-            $permod=DB::table('permisomodulos')
-            ->join('modulos', 'modulos.id', '=', 'permisomodulos.modulo_id')
-            ->where('permisomodulos.activo','1')
-            ->where('permisomodulos.borrado','0')
-            ->where('permisomodulos.user_id',$dato->id)
-            ->select('permisomodulos.id','permisomodulos.modulo_id','permisomodulos.user_id','permisomodulos.tipo','modulos.id as idmodulo','modulos.modulo')
-            ->get();
-
-            foreach ($permod as $key2 => $dato2) {
-
-            $newobj = new stdClass();
-
-            $newobj->id=$dato2->id;
-            $newobj->modulo_id=$dato2->modulo_id;
-            $newobj->user_id=$dato2->user_id;
-            $newobj->tipo=$dato2->tipo;
-            $newobj->idmodulo=$dato2->idmodulo;
-            $newobj->modulo=$dato2->modulo;
-
-            $permisoModulos[]=$newobj;
-
-            }
-
-
-            $persubmod=DB::table('permisossubmodulos')
-            ->join('submodulos', 'submodulos.id', '=', 'permisossubmodulos.submodulo_id')
-            ->where('permisossubmodulos.activo','1')
-            ->where('permisossubmodulos.borrado','0')
-            ->where('permisossubmodulos.user_id',$dato->id)
-            ->select('permisossubmodulos.id','permisossubmodulos.submodulo_id','permisossubmodulos.user_id','submodulos.id as idsubmodulo','submodulos.submodulo','submodulos.modulo_id')
-            ->get();
-
-            foreach ($persubmod as $key3 => $dato3) {
-
-                $newobj2 = new stdClass();
-    
-                $newobj2->id=$dato3->id;
-                $newobj2->submodulo_id=$dato3->modulo_id;
-                $newobj2->user_id=$dato3->user_id;
-                $newobj2->modulo_id=$dato3->modulo_id;
-                $newobj2->idsubmodulo=$dato3->idsubmodulo;
-                $newobj2->submodulo=$dato3->submodulo;
-    
-                $permisoSubModulos[]=$newobj2;
-    
-                }
-        }*/
 
           return [
             'pagination'=>[
@@ -172,32 +145,39 @@ class UserController extends Controller
     {
         //$buscar=$request->busca;
 
-      /*  $usuario = DB::table('users')
-        ->join('tipousers', 'tipousers.id', '=', 'users.tipouser_id')
-        ->join('personas', 'personas.id', '=', 'users.persona_id')
-        ->join('tipopersonas', 'tipopersonas.id', '=', 'personas.tipopersona_id')
-        ->leftjoin('entidads', 'entidads.id', '=', 'users.entidad_id')
-        ->where('users.id',Auth::user()->id)
-
-        ->orderBy('users.id')
-        ->select('users.id as idUser','users.name as username','users.email','users.activo','users.borrado','personas.id as idPer','personas.nombre','personas.dni_ruc','personas.direccion','tipousers.id as idtipouser','tipousers.tipo as tipouser','tipousers.codigo','tipopersonas.tipo as tipoPer','tipopersonas.id as idtipoPer','entidads.id as entidad_id', 'entidads.descripcion as entidad','entidads.code as codeentidad')
-        ->first();*/
-
         $usuario = DB::table('users')
         ->join('tipousers', 'tipousers.id', '=', 'users.tipouser_id')
-        ->join('personas', 'personas.id', '=', 'users.persona_id')
-        ->leftjoin('programaestudios', 'programaestudios.id', '=', 'users.programaestudio_id')
+        ->join('personals', 'personals.id', '=', 'users.personal_id')
+
+        ->join('tipo_documentos', 'tipo_documentos.id', '=', 'personals.tipo_documento_id')
+        ->join('estado_civils', 'estado_civils.id', '=', 'personals.estado_civil_id')
+        ->join('cargos', 'cargos.id', '=', 'personals.cargo_id')
+
+
+
         ->where('users.id',Auth::user()->id)
-        ->select('users.id as id','users.name','users.email','users.activo','users.borrado','users.persona_id','users.tipouser_id', 'users.programaestudio_id',
-        'personas.id as idpersona','personas.dni','personas.apellidos','personas.nombres','personas.telefono','personas.direccion','personas.cargo',
-        'tipousers.id as idtipouser','tipousers.nombre as tipouser',
-        DB::Raw("IFNULL( `programaestudios`.`id` , '0' ) as idprogramaestudios"),
-        DB::Raw("IFNULL( `programaestudios`.`nombre` , '' ) as programaestudio"),
-        )
-        ->first();
 
+         ->orderBy('tipousers.id')
+        ->orderBy('personals.apellidos')
+        ->orderBy('personals.nombres')
+     ->orderBy('users.name')
+        ->select('users.id as id','users.name','users.email','users.activo','users.borrado','users.personal_id','users.tipouser_id',
+        'personals.codigo as codPersonal',
 
+        'tipousers.nombre as tipouser',
 
+        'personals.nro_documento as docPersonal',
+        'personals.apellidos as apePersonal',
+        'personals.nombres as nomPersonal',
+        'personals.telefono as telPersonal',
+        'personals.genero as genPersonal',
+        'personals.ocupacion as ocuPersonal',
+
+        'tipo_documentos.tipo as tipoDocPersonal',
+        'cargos.descripcion as cargoPersonal',
+        'estado_civils.descripcion as estadoCivilPersonal' 
+         )
+         ->first();
 
         return [
             'usuario'=>$usuario
@@ -301,44 +281,23 @@ class UserController extends Controller
         $name=$request->name;
         $email=$request->email;
         $activo=$request->activo;
-        $persona_id=$request->persona_id;
+        $personal_id=$request->personal_id;
         $tipouser_id=$request->tipouser_id;
-        $dni=$request->dni;
-        $apellidos=$request->apellidos;
-        $nombres=$request->nombres;
-        $telefono=$request->telefono;
-        $direccion=$request->direccion;
-        $cargo=$request->cargo;
+       
         $password=$request->password;
-        $programaestudio_id=$request->programaestudio_id;
+        
 
-        if(intval($tipouser_id) != 4)
-        {
-            $programaestudio_id = 0;
-        }
 
         
         $regla0=DB::table('users')
-        ->join('personas', 'personas.id', '=', 'users.persona_id')
+        ->join('personals', 'personals.id', '=', 'users.personal_id')
         ->where('users.borrado','0')
         ->where('users.tipouser_id',$tipouser_id)
-        ->where('personas.dni',$dni)->count();
+        ->where('personals.id',$personal_id)->count();
 
         $regla02=User::where('name',$name)->where('borrado','0')->count();
         $regla03=User::where('email',$email)->where('borrado','0')->count();
 
-
-        $input1  = array('dni' => $dni);
-        $reglas1 = array('dni' => 'required');
-
-        $input2  = array('nombres' => $nombres);
-        $reglas2 = array('nombres' => 'required');
-
-        $input3  = array('apellidos' => $apellidos);
-        $reglas3 = array('apellidos' => 'required');
-
-        $input4  = array('cargo' => $cargo);
-        $reglas4 = array('cargo' => 'required');
 
         $input5  = array('email' => $email);
         $reglas5 = array('email' => 'required');
@@ -350,11 +309,6 @@ class UserController extends Controller
         $reglas7 = array('password' => 'required');
 
 
-
-        $validator1 = Validator::make($input1, $reglas1);
-        $validator2 = Validator::make($input2, $reglas2);
-        $validator3 = Validator::make($input3, $reglas3);
-        $validator4 = Validator::make($input4, $reglas4);
         $validator5 = Validator::make($input5, $reglas5);
         $validator6 = Validator::make($input6, $reglas6);
         $validator7 = Validator::make($input7, $reglas7);
@@ -377,36 +331,6 @@ class UserController extends Controller
             $msj='Ya se encuentra registrado un email con el Username ingresado';
             $selector='txtemail';
         }
-
-        elseif ($validator1->fails())
-        {
-            $result='0';
-            $msj='Complete el DNI del usuario';
-            $selector='txtdni';
-
-        }
-        elseif (strlen($dni)<8)
-        {
-            $result='0';
-            $msj='Complete un N° de DNI Válido, mínimo 08 dígitos';
-            $selector='txtdni';
-
-        }
-        elseif ($validator2->fails()) {
-            $result='0';
-            $msj='Ingrese los nombres del usuario';
-            $selector='txtnombres';
-        }
-        elseif ($validator3->fails()) {
-            $result='0';
-            $msj='Ingrese los apellidos del usuario';
-            $selector='txtapellidos';
-        }
-        elseif ($validator4->fails()) {
-            $result='0';
-            $msj='Ingrese el cargo del usuario';
-            $selector='txtcargo';
-        }
        
         elseif ($validator5->fails()) {
             $result='0';
@@ -428,54 +352,23 @@ class UserController extends Controller
             $msj='Seleccione el Tipo de Usuario';
             $selector='cbutipouser_id';
         }
-        elseif (intval($programaestudio_id)==0 && intval($tipouser_id)==4) {
+        elseif (intval($personal_id)==0) {
             $result='0';
-            $msj='Seleccione el Programa de Estudio a Cargo del Usuario';
-            $selector='cbuprogramaestudio_id';
+            $msj='Seleccione un Personal válido';
+            $selector='cbupersonal_id';
         }
-
 
        
             else{
 
-
-                if(intval($persona_id)!=0)
-                {
-                    $editPersona =Persona::find($persona_id);
-                    $editPersona->dni=$dni;
-                    $editPersona->apellidos=$apellidos;
-                    $editPersona->nombres=$nombres;
-                    $editPersona->telefono=$telefono;
-                    $editPersona->direccion=$direccion;
-                    $editPersona->cargo=$cargo;
-
-        
-                    $editPersona->save();
-                }
-                else{
-                    $newPersona = new Persona();
-                    $newPersona->dni=$dni;
-                    $newPersona->apellidos=$apellidos;
-                    $newPersona->nombres=$nombres;
-                    $newPersona->telefono=$telefono;
-                    $newPersona->direccion=$direccion;
-                    $newPersona->cargo=$cargo;
-                    $newPersona->activo='1';
-                    $newPersona->borrado='0';
-        
-                    $newPersona->save();
-        
-                    $persona_id=$newPersona->id;
-                }
         
                     $newUser = new User();
                     $newUser->name=$name;
                     $newUser->email=$email;
                     $newUser->password=bcrypt($password);
-                    $newUser->persona_id=$persona_id;
+                    $newUser->personal_id=$personal_id;
                     $newUser->tipouser_id=$tipouser_id;
                     $newUser->activo=$activo;
-                    $newUser->programaestudio_id=$programaestudio_id;
                     $newUser->borrado='0';                   
 
                     $newUser->save();
@@ -532,21 +425,11 @@ class UserController extends Controller
         $name=$request->name;
         $email=$request->email;
         $activo=$request->activo;
-        $persona_id=$request->persona_id;
+        $personal_id=$request->personal_id;
         $tipouser_id=$request->tipouser_id;
-        $dni=$request->dni;
-        $apellidos=$request->apellidos;
-        $nombres=$request->nombres;
-        $telefono=$request->telefono;
-        $direccion=$request->direccion;
-        $cargo=$request->cargo;
+       
         $password=$request->password;
         $programaestudio_id=$request->programaestudio_id;
-
-        if(intval($tipouser_id) != 4)
-        {
-            $programaestudio_id = 0;
-        }
 
         $modifpassword=$request->modifpassword;
 
@@ -555,26 +438,16 @@ class UserController extends Controller
 
         
         $regla0=DB::table('users')
-        ->join('personas', 'personas.id', '=', 'users.persona_id')
+        ->join('personals', 'personals.id', '=', 'users.personal_id')
         ->where('users.tipouser_id',$tipouser_id)
         ->where('users.borrado','0')
         ->where('users.id','<>',$id)
-        ->where('personas.dni',$dni)->count();
+        ->where('personals.id',$personal_id)->count();
 
         $regla02=User::where('name',$name)->where('users.id','<>',$id)->where('borrado','0')->count();
         $regla03=User::where('email',$email)->where('users.id','<>',$id)->where('borrado','0')->count();
 
-        $input1  = array('dni' => $dni);
-        $reglas1 = array('dni' => 'required');
 
-        $input2  = array('nombres' => $nombres);
-        $reglas2 = array('nombres' => 'required');
-
-        $input3  = array('apellidos' => $apellidos);
-        $reglas3 = array('apellidos' => 'required');
-
-        $input4  = array('cargo' => $cargo);
-        $reglas4 = array('cargo' => 'required');
 
         $input5  = array('email' => $email);
         $reglas5 = array('email' => 'required');
@@ -587,10 +460,7 @@ class UserController extends Controller
 
 
 
-        $validator1 = Validator::make($input1, $reglas1);
-        $validator2 = Validator::make($input2, $reglas2);
-        $validator3 = Validator::make($input3, $reglas3);
-        $validator4 = Validator::make($input4, $reglas4);
+    
         $validator5 = Validator::make($input5, $reglas5);
         $validator6 = Validator::make($input6, $reglas6);
         $validator7 = Validator::make($input7, $reglas7);
@@ -614,36 +484,6 @@ class UserController extends Controller
             $selector='txtemailE';
         }
 
-        elseif ($validator1->fails())
-        {
-            $result='0';
-            $msj='Complete el DNI del usuario';
-            $selector='txtdniE';
-
-        }
-        elseif (strlen($dni)<8)
-        {
-            $result='0';
-            $msj='Complete un N° de DNI Válido, mínimo 08 dígitos';
-            $selector='txtdniE';
-
-        }
-        elseif ($validator2->fails()) {
-            $result='0';
-            $msj='Ingrese los nombres del usuario';
-            $selector='txtnombresE';
-        }
-        elseif ($validator3->fails()) {
-            $result='0';
-            $msj='Ingrese los apellidos del usuario';
-            $selector='txtapellidosE';
-        }
-        elseif ($validator4->fails()) {
-            $result='0';
-            $msj='Ingrese el cargo del usuario';
-            $selector='txtcargoE';
-        }
-       
         elseif ($validator5->fails()) {
             $result='0';
             $msj='Ingrese el email del usuario';
@@ -659,16 +499,18 @@ class UserController extends Controller
             $msj='Ingrese el Password del usuario';
             $selector='txtpassword';
         } */
+        elseif (intval($personal_id)==0) {
+            $result='0';
+            $msj='Seleccione un Personal válido';
+            $selector='cbupersonal_idE';
+        }
+
         elseif (intval($tipouser_id)==0) {
             $result='0';
             $msj='Seleccione el Tipo de Usuario';
             $selector='cbutipouser_idE';
         }
-        elseif (intval($programaestudio_id)==0 && intval($tipouser_id)==4) {
-            $result='0';
-            $msj='Seleccione el Programa de Estudio a Cargo del Usuario';
-            $selector='cbuprogramaestudio_idE';
-        }
+
  
         elseif ($validator7->fails() && intval($modifpassword)==1) {
             $result='0';
@@ -681,44 +523,30 @@ class UserController extends Controller
        
             else{
 
-                    $editPersona =Persona::find($persona_id);
-                    $editPersona->dni=$dni;
-                    $editPersona->apellidos=$apellidos;
-                    $editPersona->nombres=$nombres;
-                    $editPersona->telefono=$telefono;
-                    $editPersona->direccion=$direccion;
-                    $editPersona->cargo=$cargo;
-
-
-        
-                    $editPersona->save();
-             
                 if(intval($modifpassword)==1){
-
                     $newUser = User::find($id);;
-                    $newUser->name=$name;
-                    $newUser->email=$email;
-                    $newUser->password=bcrypt($password);
-                    $newUser->persona_id=$persona_id;
-                    $newUser->tipouser_id=$tipouser_id;
-                    $newUser->activo=$activo;
-                    $newUser->programaestudio_id=$programaestudio_id;
-   
-                    
-                    $newUser->save();
-                }
-                else{
-                    $newUser = User::find($id);;
-                    $newUser->name=$name;
-                    $newUser->email=$email;
-                    $newUser->persona_id=$persona_id;
-                    $newUser->tipouser_id=$tipouser_id;
-                    $newUser->activo=$activo;
-                    $newUser->programaestudio_id=$programaestudio_id;
+                        $newUser->name=$name;
+                        $newUser->email=$email;
+                        $newUser->personal_id=$personal_id;
+                        $newUser->tipouser_id=$tipouser_id;
+                        $newUser->activo=$activo;
+                        $newUser->password=bcrypt($password);
 
                     $newUser->save();
-                }
-                    
+
+                    }
+                    else{
+                        $newUser = User::find($id);;
+                        $newUser->name=$name;
+                        $newUser->email=$email;
+                        $newUser->personal_id=$personal_id;
+                        $newUser->tipouser_id=$tipouser_id;
+                        $newUser->activo=$activo;
+        
+                        $newUser->save();    
+                    }
+
+                
 
           $msj='Usuario modificado con éxito';
 

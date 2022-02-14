@@ -1,32 +1,9 @@
 <form method="post" v-on:submit.prevent="updateUsuario(filluser.id)">
   <div class="box-body" style="font-size: 14px;">
 
- 
-
-    <div class="col-md-12">
-
-      <div class="form-group">
 
 
 
-
-        <label for="txtdniE" class="col-sm-1 control-label">DNI:*</label>
-
-        <div class="col-sm-2">
-          <input type="text" class="form-control" id="txtdniE" name="txtdniE" placeholder="N° de DNI" maxlength="20"
-            autofocus v-model="filluser.dni" required
-            @keydown="$event.keyCode === 13 ? $event.preventDefault() : false" :disabled="validated == 1"
-           >
-        </div>
-
-      </div>
-
-
-
-    </div>
-
-
-    <template v-if="1==1">
 
 
       <div class="col-md-12">
@@ -37,52 +14,19 @@
         <h4>Datos Personales</h4>
       </center>
 
-      <div class="col-md-12" style="padding-top: 15px;">
-        <div class="form-group">
-          <label for="txtapellidosE" class="col-sm-2 control-label">Apellidos:*</label>
-          <div class="col-sm-4">
-            <input type="text" class="form-control" id="txtapellidosE" name="txtapellidosE" placeholder="Apellidos"
-              maxlength="500" @keydown="$event.keyCode === 13 ? $event.preventDefault() : false" v-model="filluser.apellidos">
-          </div>
 
-          <label for="txtnombresE" class="col-sm-2 control-label">Nombres:*</label>
-          <div class="col-sm-4">
-              <input type="text" class="form-control" id="txtnombresE" name="txtnombresE" placeholder="Nombres"
-                maxlength="500" @keydown="$event.keyCode === 13 ? $event.preventDefault() : false" v-model="filluser.nombres">
-            </div>
-        </div>
-      </div>
 
       <div class="col-md-12" style="padding-top: 15px;">
-        <div class="form-group">
-          <label for="txtcargoE" class="col-sm-2 control-label">Cargo:*</label>
-          <div class="col-sm-8">
-            <input type="text" class="form-control" id="txtcargoE" name="txtcargoE" placeholder="Cargo del Usuario"
-              maxlength="500" @keydown="$event.keyCode === 13 ? $event.preventDefault() : false" v-model="filluser.cargo">
-          </div>
+        <label for="cbupersonal_idE" class="col-sm-2 control-label">Personal:*</label>
+        <div class="col-sm-4">
+        <select class="form-control" id="cbupersonal_idE" name="cbupersonal_idE" v-model="filluser.personal_id">
+          <option disabled value="0">Seleccione...</option>
+          @foreach ($personals as $dato)
+            <option value="{{$dato->id}}">{{$dato->apellidos}} {{$dato->nombres}}</option> 
+          @endforeach
+        </select>
         </div>
       </div>
-
-
-
-
-        <div class="col-md-12" style="padding-top: 15px;">
-            <div class="form-group">
-
-                <label for="txtdireccionE" class="col-sm-2 control-label">Dirección:</label>
-                <div class="col-sm-4">
-                  <input type="text" class="form-control" id="txtdireccionE" name="txtdireccionE" placeholder="Av. Jr. Psje."
-                    maxlength="500" @keydown="$event.keyCode === 13 ? $event.preventDefault() : false" v-model="filluser.direccion">
-                </div>
-
-                <label for="txttelefonoE" class="col-sm-2 control-label">Teléfono:*</label>
-                  <div class="col-sm-2">
-                    <input type="text" class="form-control" id="txttelefonoE" name="txttelefonoE" placeholder="Telef / Cell"
-                      maxlength="100" @keydown="$event.keyCode === 13 ? $event.preventDefault() : false" v-model="filluser.telefono">
-                  </div> 
-
-            </div>
-          </div>
 
 
 
@@ -99,7 +43,7 @@
         <div class="form-group">
           <label for="cbutipouser_idE" class="col-sm-2 control-label">Tipo de Usuario:*</label>
           <div class="col-sm-4">
-            <select class="form-control" id="cbutipouser_idE" name="cbutipouser_idE" v-model="filluser.tipouser_id" @change="modifTipoUserE">
+            <select class="form-control" id="cbutipouser_idE" name="cbutipouser_idE" v-model="filluser.tipouser_id" >
               <option disabled value="">Seleccione un Tipo de Usuario</option>
               @foreach ($tipousers as $dato)
                 <option value="{{$dato->id}}">{{$dato->nombre}}</option> 
@@ -109,19 +53,6 @@
         </div>
       </div>
 
-      <div class="col-md-12" style="padding-top: 15px;" v-if="filluser.tipouser_id==4">
-        <div class="form-group">
-          <label for="cbuprogramaestudio_idE" class="col-sm-2 control-label">Programa de Estudio Asignado:*</label>
-          <div class="col-sm-4">
-            <select class="form-control" id="cbuprogramaestudio_idE" name="cbuprogramaestudio_idE" v-model="filluser.programaestudio_id" >
-              <option disabled value="">Seleccione un Tipo de Usuario</option>
-              @foreach ($programaestudios as $dato)
-                <option value="{{$dato->id}}">{{$dato->nombre}}</option> 
-              @endforeach
-            </select>
-          </div>
-        </div>
-      </div>
 
       <div class="col-md-12" style="padding-top: 15px;">
         <div class="form-group">
@@ -185,8 +116,6 @@
       </div>
 
     
-
-    </template>
 
 
 
