@@ -277,6 +277,59 @@
                 this.divloaderNuevo=false;
 
                 if(response.data.result=='1'){
+                    
+                    if(this.archivo!=null){
+                        this.cargarFile();
+                    }
+                    else{
+                        //this.getDatos(this.thispage);
+                    this.errors=[];
+                    this.cerrarForm();
+                    //toastr.success(response.data.msj);
+                    Swal.fire(
+                    'Correcto!',
+                    response.data.msj,
+                    'success'
+                    ); 
+                    }
+                    
+                }else{
+                    $('#'+response.data.selector).focus();
+                    toastr.error(response.data.msj);
+                }
+            }).catch(error=>{
+                this.errors=error.response.data
+            })
+        },
+
+        cargarFile:function () {
+            var url='/intranet/proceso4cargarfile';
+
+            $("#btnGuardar").attr('disabled', true);
+            $("#btnCancel").attr('disabled', true);
+            $("#btnClose").attr('disabled', true);
+
+            this.divloaderNuevo=true;
+
+
+
+            var data = new  FormData();
+
+
+            data.append('archivo', this.archivo);
+            data.append('codigo', this.fillobject.codigo);
+
+
+            const config = { headers: { 'Content-Type': 'multipart/form-data' } };
+
+            axios.post(url, data, config).then(response=>{
+
+                $("#btnGuardar").removeAttr("disabled");
+                $("#btnCancel").removeAttr("disabled");
+                $("#btnClose").removeAttr("disabled");
+                this.divloaderNuevo=false;
+
+                if(response.data.result=='1'){
                     //this.getDatos(this.thispage);
                     this.errors=[];
                     this.cerrarForm();
@@ -294,6 +347,8 @@
                 this.errors=error.response.data
             })
         },
+
+
         changeProvincia: function(){
             this.fillobject.distrito_id=0;
         },

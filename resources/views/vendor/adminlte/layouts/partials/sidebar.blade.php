@@ -66,6 +66,14 @@
             <li v-bind:class="classMenu4"><a href="{{URL::to('despacho_unidad')}}"><i class='fa fa-ambulance'></i> <span>Despacho de la Unidad Móvil</span></a></li>
             <li v-bind:class="classMenu5"><a href="{{URL::to('asistencia_medica')}}"><i class='fa fa-user-md'></i> <span>Asistencia Médica en Foco</span></a></li>
 
+            <li class="treeview" v-bind:class="classMenu7">
+                <a href="#"><i class='fa fa-print'></i> <span>Reportes</span> <i class="fa fa-angle-left pull-right"></i></a>
+                <ul class="treeview-menu">
+                    <li><a href="{{URL::to('reporte1')}}"><i class='fa fa-sign-in'></i> Procesos de Atención</a></li>
+                    <li><a href="{{URL::to('reporte2')}}"><i class='fa fa-sign-in'></i> Reportes Estadísticos</a></li>
+                </ul>
+            </li>
+
             <li class="treeview" v-bind:class="classMenu6">
                 <a href="#"><i class='fa fa-cogs'></i> <span>Configuraciones</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">

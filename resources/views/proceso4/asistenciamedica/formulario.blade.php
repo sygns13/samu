@@ -211,7 +211,7 @@
 
             <div class="form-group col-md-6">
               <label for="txttiempo">TIEMPO ENFERMEDAD:</label>
-              <input type="input" class="form-control" id="txttiempo" name="txttiempo" placeholder="Patología Previa"
+              <input type="input" class="form-control" id="txttiempo" name="txttiempo" placeholder="Tiempo Enfermedad"
               maxlength="500" @keydown="$event.keyCode === 13 ? $event.preventDefault() : false" v-model="enfermedad_actuals.tiempo" />
             </div>
 

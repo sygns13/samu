@@ -87,6 +87,93 @@ class Proceso4AsistenciaMedicaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function cargarfile(Request $request){
+
+        $codigo = $request->codigo;
+        $file = $request->archivo;
+
+        
+        $archivo="";
+        $segureFile=0;
+
+        $result='1';
+        $msj='';
+        $selector='';
+
+        if($request->hasFile('archivo')){
+            
+            $nombreArchivo=$request->nombrefile;
+            
+            $aux2='documento_'.date('d-m-Y').'-'.date('H-i-s');
+            $input2  = array('archivo' => $file) ;
+            $reglas2 = array('archivo' => 'required|file:1,1024000');
+            $validatorF = Validator::make($input2, $reglas2);     
+
+            if ($validatorF->fails())
+            {
+                $segureFile=1;
+                $msj="Se ingresó correctamente el registro, pero el archivo adjunto ingresado tiene un tamaño superior a 100 MB, no se cargó el archivo";
+                $result='0';
+                $selector='archivo';
+            }
+            else
+            {
+                $nombre2=$file->getClientOriginalName();
+                $extension2=$file->getClientOriginalExtension();
+                $nuevoNombre2=$aux2.".".$extension2;
+                //$subir2=Storage::disk('infoFile')->put($nuevoNombre2, \File::get($file));
+
+                if($extension2=="pdf" || $extension2=="doc" || $extension2=="docx" || $extension2=="xls" || $extension2=="xlsx" || $extension2=="ppt" || $extension2=="pptx" || $extension2=="PDF" || $extension2=="DOC" || $extension2=="DOCX" || $extension2=="XLS" || $extension2=="XLSX" || $extension2=="PPT" || $extension2=="PTTX")
+                {
+
+                    $subir2=false;
+                    $subir2=Storage::disk('fichamedica')->put($nuevoNombre2, \File::get($file));
+
+                if($subir2){
+                    $archivo=$nuevoNombre2;
+                }
+                else{
+                    $msj="Se ingresó correctamente el registro, pero se tuvo un error al subir el archivo adjunto";
+                    $segureFile=1;
+                    $result='0';
+                    $selector='archivo';
+                }
+                }
+                else {
+                    $segureFile=1;
+                    $msj="Se ingresó correctamente el registro, pero el archivo adjunto ingresado tiene una extensión no válida, no se cargó el archivo";
+                    $result='0';
+                    $selector='archivo';
+                }
+            }
+
+        }
+
+        if($segureFile==1){
+
+            Storage::disk('fichamedica')->delete($archivo);
+
+            return response()->json(["result"=>$result,'msj'=>$msj,'selector'=>$selector]);
+        }
+
+
+
+
+        $proceso4 = Proceso4AsistenciaMedica::where('borrado','0')->where('codigo', $codigo)->first();
+
+        $proceso4->url=$archivo;
+
+        $proceso4->save();
+
+        $msj='Se ingresó correctamente el registro';
+
+        
+
+        return response()->json(["result"=>$result,'msj'=>$msj,'selector'=>$selector]);
+
+
+
+    }
     public function store(Request $request)
     {
 
@@ -1313,62 +1400,7 @@ class Proceso4AsistenciaMedicaController extends Controller
 
 
         
-        if($request->hasFile('archivo')){
-            
-            $nombreArchivo=$request->nombrefile;
-            
-            $aux2='documento_'.date('d-m-Y').'-'.date('H-i-s');
-            $input2  = array('archivo' => $file) ;
-            $reglas2 = array('archivo' => 'required|file:1,1024000');
-            $validatorF = Validator::make($input2, $reglas2);     
-
-            if ($validatorF->fails())
-            {
-                $segureFile=1;
-                $msj="El archivo adjunto ingresado tiene un tamaño superior a 100 MB, ingrese otro archivo o limpie el formulario";
-                $result='0';
-                $selector='archivo';
-            }
-            else
-            {
-                $nombre2=$file->getClientOriginalName();
-                $extension2=$file->getClientOriginalExtension();
-                $nuevoNombre2=$aux2.".".$extension2;
-                //$subir2=Storage::disk('infoFile')->put($nuevoNombre2, \File::get($file));
-
-                if($extension2=="pdf" || $extension2=="doc" || $extension2=="docx" || $extension2=="xls" || $extension2=="xlsx" || $extension2=="ppt" || $extension2=="pptx" || $extension2=="PDF" || $extension2=="DOC" || $extension2=="DOCX" || $extension2=="XLS" || $extension2=="XLSX" || $extension2=="PPT" || $extension2=="PTTX")
-                {
-
-                    $subir2=false;
-                    $subir2=Storage::disk('fichamedica')->put($nuevoNombre2, \File::get($file));
-
-                if($subir2){
-                    $archivo=$nuevoNombre2;
-                }
-                else{
-                    $msj="Error al subir el archivo adjunto, intentelo nuevamente luego";
-                    $segureFile=1;
-                    $result='0';
-                    $selector='archivo';
-                }
-                }
-                else {
-                    $segureFile=1;
-                    $msj="El archivo adjunto ingresado tiene una extensión no válida, ingrese otro archivo o limpie el formulario";
-                    $result='0';
-                    $selector='archivo';
-                }
-            }
-
-        }
-
-        if($segureFile==1){
-
-            Storage::disk('fichamedica')->delete($archivo);
-
-            return response()->json(["result"=>$result,'msj'=>$msj,'selector'=>$selector]);
-        }
-
+        
 
         $registro = new Proceso4AsistenciaMedica;
 

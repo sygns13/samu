@@ -29,7 +29,7 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="skin-red-light sidebar-mini sidebar-collapse">
+<body class="skin-red-light sidebar-mini">
 <div id="app" v-cloak>
     <div class="wrapper">
 
@@ -94,6 +94,12 @@ desired effect
 
 @elseif($modulo=="proceso4")
 @include('proceso4.asistenciamedica.vue')
+
+{{-- Modulo 3 Reportes--}}
+
+@elseif($modulo=="reporte1")
+@include('reportes.reporte1.vue')
+
 
 @endif
 
